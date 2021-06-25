@@ -2,7 +2,6 @@ import json
 
 from flask import Response
 from rubix_http.request import gw_request
-from sqlalchemy.orm import validates
 
 from src import db
 from src.enums.mapping import MappingState
@@ -31,32 +30,28 @@ class BPGPointMapping(ModelBase):
             self.__set_mapped_point_uuid()
 
     def __set_point_name(self):
-        pass
-        # from src.bacnet_server.models.model_point import BACnetPointModel
-        # if not self.point_uuid:
-        #     raise ValueError(f"point_uuid should not be null or blank")
-        # point: BACnetPointModel = BACnetPointModel.find_by_uuid(self.point_uuid)
-        # if not point:
-        #     raise ValueError(f"Does not exist point_uuid {self.point_uuid}")
-        # self.point_name = point.object_name
+        if not self.point_uuid:
+            raise ValueError(f"point_uuid should not be null or blank")
+        response: Response = gw_request(api=f'/bacnet/api/bacnet/points/uuid/{self.point_uuid}')
+        if response.status_code != 200:
+            raise ValueError(f"Does not exist point_uuid {self.point_uuid}")
+        self.point_name = json.loads(response.data).get('object_name')
 
     def __set_mapped_point_name(self):
         if not self.mapped_point_uuid:
             raise ValueError(f"mapped_point_uuid should not be null or blank")
-        response: Response = gw_request(f'/ps/api/generic/points/uuid/{self.mapped_point_uuid}')
+        response: Response = gw_request(api=f'/ps/api/generic/points/uuid/{self.mapped_point_uuid}')
         if response.status_code != 200:
             raise ValueError(f"Does not exist mapped_point_uuid {self.mapped_point_uuid}")
         self.mapped_point_name = json.loads(response.data).get('name')
 
     def __set_point_uuid(self):
-        pass
-        # from src.bacnet_server.models.model_point import BACnetPointModel
-        # if not self.point_name:
-        #     raise ValueError("point name should not be null or blank")
-        # point: BACnetPointModel = BACnetPointModel.find_by_object_name(self.point_name)
-        # if not point:
-        #     raise ValueError(f"Does not exist point_name {self.point_name}")
-        # self.point_uuid = point.uuid
+        if not self.point_name:
+            raise ValueError("point name should not be null or blank")
+        response: Response = gw_request(api=f'/bacnet/api/bacnet/points/name/{self.point_name}')
+        if response.status_code != 200:
+            raise ValueError(f"Does not exist point_name {self.point_name}")
+        self.point_uuid = json.loads(response.data).get('uuid')
 
     def __set_mapped_point_uuid(self):
         if not self.mapped_point_name:
@@ -65,7 +60,7 @@ class BPGPointMapping(ModelBase):
         if len(mapped_point_names) != 3:
             raise ValueError("mapped_point_names should be colon (:) delimited network_name:device_name:point_name")
         network_name, device_name, point_name = mapped_point_names
-        response: Response = gw_request(f'/ps/api/generic/points/name/{network_name}/{device_name}/{point_name}')
+        response: Response = gw_request(api=f'/ps/api/generic/points/name/{network_name}/{device_name}/{point_name}')
         if response.status_code != 200:
             raise ValueError(f"Does not exit mapped_point_name {self.mapped_point_name}")
         self.mapped_point_uuid = json.loads(response.data).get('uuid')

@@ -41,14 +41,12 @@ class LPGBPointMapping(ModelBase):
             self.__set_mapped_point_uuid()
 
     def __set_point_name(self):
-        pass
-        # from src.models.model_point import PointModel
-        # if not self.point_uuid:
-        #     raise ValueError(f"point_uuid should not be null or blank")
-        # point: PointModel = PointModel.find_by_uuid(self.point_uuid)
-        # if not point:
-        #     raise ValueError(f"Does not exist point_uuid {self.point_uuid}")
-        # self.point_name = f"{point.device.name}:{point.name}"
+        if not self.point_uuid:
+            raise ValueError(f"point_uuid should not be null or blank")
+        response: Response = gw_request(f'/lora/api/lora/points/uuid/{self.point_uuid}')
+        if response.status_code != 200:
+            raise ValueError(f"Does not exist point_uuid {self.point_uuid}")
+        self.point_name = json.loads(response.data).get('name')
 
     def __set_mapped_point_name(self):
         if not self.mapped_point_uuid:
@@ -65,16 +63,14 @@ class LPGBPointMapping(ModelBase):
             self.mapped_point_name = json.loads(response.data).get('object_name')
 
     def __set_point_uuid(self):
-        pass
-        # from src.models.model_point import PointModel
-        # point_names = self.point_name.split(":")
-        # if len(point_names) != 2:
-        #     raise ValueError("point_name should be colon (:) delimited device_name:point_name")
-        # device_name, point_name = point_names
-        # point: PointModel = PointModel.find_by_name(device_name, point_name)
-        # if not point:
-        #     raise ValueError(f"Does not exist point_name {self.point_name}")
-        # self.point_uuid = point.uuid
+        point_names = self.point_name.split(":")
+        if len(point_names) != 2:
+            raise ValueError("point_name should be colon (:) delimited device_name:point_name")
+        device_name, point_name = point_names
+        response: Response = gw_request(f'/lora/api/lora/points/name/{device_name}/{point_name}')
+        if response.status_code != 200:
+            raise ValueError(f"Does not exist point_name {self.point_name}")
+        self.point_uuid = json.loads(response.data).get('uuid')
 
     def __set_mapped_point_uuid(self):
         if not self.mapped_point_name:
