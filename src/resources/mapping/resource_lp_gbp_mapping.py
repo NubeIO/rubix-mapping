@@ -9,12 +9,14 @@ from src.enums.mapping import MappingState, MapType
 from src.models.model_lp_gbp_mapping import LPGBPointMapping
 from src.resources.rest_schema.schema_lp_gbp_mapping import mapping_lp_gbp_all_fields, mapping_lp_gbp_uuid_attributes, \
     mapping_lp_gbp_name_attributes
+from src.services.sync_lp_gbp import sync_point_value_lp_to_gbp, get_lp_priority_array_write
 
 
 def sync_point_value(mapping: LPGBPointMapping):
-    # if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
-    #     point_store: PointStoreModel = PointStoreModel.find_by_point_uuid(mapping.point_uuid)
-    #     point_store.sync_point_value_lp_to_gbp(mapping.type, mapping.mapped_point_uuid)
+    if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
+        priority_array_write = get_lp_priority_array_write(mapping.point_uuid)
+        if priority_array_write:
+            sync_point_value_lp_to_gbp(mapping.type, mapping.mapped_point_uuid, priority_array_write)
     return mapping
 
 

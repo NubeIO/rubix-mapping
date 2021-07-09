@@ -334,6 +334,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 pyparsing = ">=2.0.2"
 
 [[package]]
+name = "paho-mqtt"
+version = "1.5.1"
+description = "MQTT version 5.0/3.1.1 client class"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+proxy = ["pysocks"]
+
+[[package]]
 name = "pefile"
 version = "2019.4.18"
 description = "Python PE parsing module"
@@ -509,6 +520,43 @@ reference = "v1.1.1"
 resolved_reference = "f403a73fee09108ab159fae49182a4841359750b"
 
 [[package]]
+name = "rubix-mqtt"
+version = "1.2.0"
+description = "Rubix MQTT for creating MQTT connection"
+category = "main"
+optional = false
+python-versions = "*"
+develop = false
+
+[package.dependencies]
+paho-mqtt = ">=1.5.1"
+
+[package.source]
+type = "git"
+url = "https://github.com/NubeIO/rubix-mqtt"
+reference = "v1.2.0"
+resolved_reference = "cd9070a4c4b6c352826b1a3dff1d1bc016285125"
+
+[[package]]
+name = "rubix-registry"
+version = "1.1.1"
+description = "Rubix Registry"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+develop = false
+
+[package.dependencies]
+shortuuid = "1.0.1"
+tinydb = "4.4.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/NubeIO/rubix-registry"
+reference = "v1.1.1"
+resolved_reference = "6f2d9ccca328ed6b202b17e0316b7dcfc25b6b7f"
+
+[[package]]
 name = "shortuuid"
 version = "1.0.1"
 description = "A generator library for concise, unambiguous and URL-safe UUIDs."
@@ -543,6 +591,14 @@ postgresql_pg8000 = ["pg8000 (<1.16.6)"]
 postgresql_psycopg2binary = ["psycopg2-binary"]
 postgresql_psycopg2cffi = ["psycopg2cffi"]
 pymysql = ["pymysql (<1)", "pymysql"]
+
+[[package]]
+name = "tinydb"
+version = "4.4.0"
+description = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
+category = "main"
+optional = false
+python-versions = ">=3.5,<4.0"
 
 [[package]]
 name = "toml"
@@ -625,7 +681,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "11c62cbff73993cefebe6960d3d454601166f2979d95ad641647e35ff1b9756b"
+content-hash = "2476c075e689982a8a8ee9e375e823fb83f65fb3087eb603cf4240d9223a6807"
 
 [metadata.files]
 alembic = [
@@ -902,6 +958,9 @@ packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},
     {file = "packaging-20.9.tar.gz", hash = "sha256:5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5"},
 ]
+paho-mqtt = [
+    {file = "paho-mqtt-1.5.1.tar.gz", hash = "sha256:9feb068e822be7b3a116324e01fb6028eb1d66412bf98595ae72698965cb1cae"},
+]
 pefile = [
     {file = "pefile-2019.4.18.tar.gz", hash = "sha256:a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645"},
 ]
@@ -956,6 +1015,8 @@ requests = [
     {file = "requests-2.25.1.tar.gz", hash = "sha256:27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804"},
 ]
 rubix-http = []
+rubix-mqtt = []
+rubix-registry = []
 shortuuid = [
     {file = "shortuuid-1.0.1-py3-none-any.whl", hash = "sha256:492c7402ff91beb1342a5898bd61ea953985bf24a41cd9f247409aa2e03c8f77"},
     {file = "shortuuid-1.0.1.tar.gz", hash = "sha256:3c11d2007b915c43bee3e10625f068d8a349e04f0d81f08f5fa08507427ebf1f"},
@@ -1003,6 +1064,10 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.3.23-cp39-cp39-win32.whl", hash = "sha256:94208867f34e60f54a33a37f1c117251be91a47e3bfdb9ab8a7847f20886ad06"},
     {file = "SQLAlchemy-1.3.23-cp39-cp39-win_amd64.whl", hash = "sha256:f4d972139d5000105fcda9539a76452039434013570d6059993120dc2a65e447"},
     {file = "SQLAlchemy-1.3.23.tar.gz", hash = "sha256:6fca33672578666f657c131552c4ef8979c1606e494f78cd5199742dfb26918b"},
+]
+tinydb = [
+    {file = "tinydb-4.4.0-py3-none-any.whl", hash = "sha256:30b0f718ebb288e42d2f69f3e1b18928739f25153e6b5308a234e95c1673de71"},
+    {file = "tinydb-4.4.0.tar.gz", hash = "sha256:d57c29524ecacc081ebc24f96e0d787bba11dc20d52634a32a709b878be3545a"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

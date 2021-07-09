@@ -12,6 +12,15 @@ def get_field_type(attr_type):
         return fields.Float()
 
 
+def create_priority_array_write(priority, value):
+    priority_array_write = {}
+    for i in range(1, 17):
+        if i == int(priority):
+            priority_array_write[f'_{i}'] = value
+        priority_array_write[f'_{i}'] = None
+    return priority_array_write
+
+
 def map_rest_schema(schema, resource_fields):
     """
     Adds schema dict marshaled data to resource_fields dict

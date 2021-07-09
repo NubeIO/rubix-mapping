@@ -9,6 +9,9 @@ from src.models.model_base import ModelBase
 
 
 class BPGPointMapping(ModelBase):
+    """
+        bacnet_point <> generic_point
+    """
     __tablename__ = 'mappings_bp_gp'
 
     uuid = db.Column(db.String, primary_key=True)
@@ -68,6 +71,10 @@ class BPGPointMapping(ModelBase):
     @classmethod
     def find_by_point_uuid(cls, point_uuid):
         return cls.query.filter_by(point_uuid=point_uuid).first()
+
+    @classmethod
+    def find_by_point_name(cls, point_name):
+        return cls.query.filter_by(point_name=point_name).first()
 
     @classmethod
     def find_by_mapped_point_uuid(cls, mapped_point_uuid):

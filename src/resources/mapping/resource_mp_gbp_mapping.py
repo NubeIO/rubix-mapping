@@ -9,13 +9,14 @@ from src.enums.mapping import MappingState, MapType
 from src.models.model_mp_gbp_mapping import MPGBPMapping
 from src.resources.rest_schema.schema_mpg_bp_mapping import mapping_mp_gbp_all_fields, mapping_mp_gbp_uuid_attributes, \
     mapping_mp_gbp_attributes, mapping_mp_gbp_name_attributes
+from src.services.sync_mp_gbp import sync_point_value_with_mapping_mp_to_gbp, get_mp_priority_array_write
 
 
 def sync_point_value(mapping: MPGBPMapping):
-    # if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
-    #     point_store: PointStoreModel = PointStoreModel.find_by_point_uuid(mapping.point_uuid)
-    #     point_store.sync_point_value_with_mapping_mp_to_gbp(mapping.type, mapping.mapped_point_uuid,
-    #                                                         point_store.get_priority_array_write())
+    if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
+        priority_array_write = get_mp_priority_array_write(mapping.point_uuid)
+        if priority_array_write:
+            sync_point_value_with_mapping_mp_to_gbp(mapping.type, mapping.mapped_point_uuid, priority_array_write)
     return mapping
 
 

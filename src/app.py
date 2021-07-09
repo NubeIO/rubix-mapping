@@ -43,11 +43,12 @@ def create_app(app_setting) -> Flask:
         cursor.close()
 
     def register_router(_app) -> Flask:
-        from src.routes import bp_system, bp_mapping_mp_gbp, bp_mapping_lp_gbp, bp_mapping_bp_gp
+        from src.routes import bp_system, bp_mapping_mp_gbp, bp_mapping_lp_gbp, bp_mapping_bp_gp, bp_sync
         _app.register_blueprint(bp_system)
         _app.register_blueprint(bp_mapping_mp_gbp)
         _app.register_blueprint(bp_mapping_lp_gbp)
         _app.register_blueprint(bp_mapping_bp_gp)
+        _app.register_blueprint(bp_sync)
         return _app
 
     setup(app)

@@ -9,12 +9,14 @@ from src.enums.mapping import MappingState
 from src.models.model_bp_gp_mapping import BPGPointMapping
 from src.resources.rest_schema.schema_bp_gp_mapping import mapping_bp_gp_all_fields, mapping_bp_gp_uuid_attributes, \
     mapping_bp_gp_name_attributes
+from src.services.sync_bp_gp import sync_point_value_bp_to_gp, get_bp_priority_array_write
 
 
 def sync_point_value(mapping: BPGPointMapping):
-    # if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
-    #     point_store: BACnetPointStoreModel = BACnetPointStoreModel.find_by_point_uuid(mapping.point_uuid)
-    #     point_store.sync_point_value_bp_to_gp(mapping.mapped_point_uuid, point_store.get_priority_array_write())
+    if mapping.mapping_state in (MappingState.MAPPED.name, MappingState.MAPPED):
+        priority_array_write = get_bp_priority_array_write(mapping.point_uuid)
+        if priority_array_write:
+            sync_point_value_bp_to_gp(mapping.mapped_point_uuid, priority_array_write)
     return mapping
 
 

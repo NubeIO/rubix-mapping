@@ -100,3 +100,7 @@ class MPGBPMapping(ModelBase):
     @classmethod
     def find_by_mapped_point_uuid_type(cls, mapped_point_uuid, map_type):
         return cls.query.filter_by(mapped_point_uuid=mapped_point_uuid, type=map_type).first()
+
+    @classmethod
+    def find_by_mapped_point_name_type(cls, mapped_point_name, map_type):
+        return cls.query.filter_by(mapped_point_name=mapped_point_name, type=map_type).first()

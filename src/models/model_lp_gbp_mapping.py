@@ -97,5 +97,9 @@ class LPGBPointMapping(ModelBase):
         return cls.query.filter_by(point_uuid=point_uuid).first()
 
     @classmethod
+    def find_by_point_name(cls, point_name):
+        return cls.query.filter_by(point_name=point_name).first()
+
+    @classmethod
     def find_mapped_point_uuid_type(cls, mapped_point_uuid, map_type):
         return cls.query.filter_by(mapped_point_uuid=mapped_point_uuid, type=map_type).first()

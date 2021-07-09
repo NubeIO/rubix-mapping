@@ -1,16 +1,19 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from src.resources.resource_bp_gp_mapping import BPGPMappingResourceList, BPGPMappingResourceListByUUID, \
+from src.resources.mapping.resource_bp_gp_mapping import BPGPMappingResourceList, BPGPMappingResourceListByUUID, \
     BPGPMappingResourceListByName, BPGPMappingResourceByUUID, GBPMappingResourceByBACnetPointUUID, \
     GBPMappingResourceByGenericPointUUID, BPGPMappingResourceUpdateMappingState
-from src.resources.resource_lp_gbp_mapping import LPGBPMappingResourceList, LPGBPMappingResourceListByUUID, \
+from src.resources.mapping.resource_lp_gbp_mapping import LPGBPMappingResourceList, LPGBPMappingResourceListByUUID, \
     LPGBPMappingResourceListByName, LPGBPMappingResourceByUUID, LPGBPMappingResourceByLoRaPointUUID, \
     LPGBPMappingResourceByGenericPointUUID, LPGBPMappingResourceByBACnetPointUUID, \
     LPGBPMappingResourceUpdateMappingState
-from src.resources.resource_mpg_bp_mapping import MPGBPMappingResourceList, MPGBPMappingResourceListByUUID, \
+from src.resources.mapping.resource_mp_gbp_mapping import MPGBPMappingResourceList, MPGBPMappingResourceListByUUID, \
     MPGBPMappingResourceListByName, MPGBPMappingResourceByUUID, MPGBPMappingResourceByModbusPointUUID, \
     MPGBPMappingResourceByGenericPointUUID, MPGBPMappingResourceByBACnetPointUUID, MPGBMappingResourceUpdateMappingState
+from src.resources.sync.resource_bp_gp_sync import BPToGPSync
+from src.resources.sync.resource_lp_gbp_sync import LPToGPSync, LPToBPSync, LPToGBPSync
+from src.resources.sync.resource_mp_gbp_sync import MPToGPSync, MPToBPSync, MPToGBPSync
 from src.system.resources.ping import Ping
 
 bp_system = Blueprint('system', __name__, url_prefix='/api/system')
@@ -50,3 +53,13 @@ api_mapping_bp_gp.add_resource(BPGPMappingResourceByUUID, '/uuid/<string:uuid>')
 api_mapping_bp_gp.add_resource(GBPMappingResourceByBACnetPointUUID, '/bacnet/<string:uuid>')
 api_mapping_bp_gp.add_resource(GBPMappingResourceByGenericPointUUID, '/generic/<string:uuid>')
 api_mapping_bp_gp.add_resource(BPGPMappingResourceUpdateMappingState, '/update_mapping_state')
+
+bp_sync = Blueprint('sync', __name__, url_prefix='/api/sync')
+api_sync = Api(bp_sync)
+api_sync.add_resource(MPToGPSync, '/mp_to_gp')
+api_sync.add_resource(MPToBPSync, '/mp_to_bp')
+api_sync.add_resource(MPToGBPSync, '/mp_to_gbp')
+api_sync.add_resource(LPToGPSync, '/lp_to_gp')
+api_sync.add_resource(LPToBPSync, '/lp_to_bp')
+api_sync.add_resource(LPToGBPSync, '/lp_to_gbp')
+api_sync.add_resource(BPToGPSync, '/bp_to_gp')
